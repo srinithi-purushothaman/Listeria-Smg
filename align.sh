@@ -37,7 +37,7 @@ cd  "$BASENAME"
 
 #Filt 200bp
 
-apptainer exec $APPTAINER_PATH/filtlong_v0.3.1.sif  filtlong --min_length 200 --keep "$INPUT_DIR"/"$BASENAME".fastq > "$BASENAME"_filt.fastq
+apptainer exec $APPTAINER_PATH/filtlong_v0.3.1.sif  filtlong --min_length 200 --keep_percent 90 "$INPUT_DIR"/"$BASENAME".fastq > "$BASENAME"_filt.fastq
 
 #minimap against gtdb
 
