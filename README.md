@@ -7,6 +7,8 @@ Quasimetagenomics indicated selective enrichment of specific L. monocytogenes st
 
 The manuscript is available here
 
+Basecalled sample bam files in ENA - PRJEB129024
+
 # ONT read based analysis for Listeria detection
 
 The following pipeline is based on read based minimap2 alignment. The pipeline follows step alignment process (i) aligning read length filtered reads against the GTDB database(v232) for overall taxa identification and (ii) extracting all reads on mapped on the Listeria genus level and mapping it against all the available Listeria genomes (6607) in the GTDB database(v232). The second alignment step also includes genome from Listeriaceae family (Brochothrix thermosphacta) as decoy sequences, which is included in the Listeria genomes. Samtools coverage option is used to obtain the alignment summary stats. The mapped bases are calculated as follows: mapped bases = meandepth × (endpos − startpos + 1) (reference genome length corrected).
