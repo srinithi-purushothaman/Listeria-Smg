@@ -22,7 +22,7 @@ Note: Reads and bases assigned to ST9 and ST35 were merged and reported as ST35 
 
 [`align.sh`](align.sh) - Slurm script for preprocessing and alignment.
 
-add_taxa.py - GTDB annotation of the samtools coverage tsv files.
+[`add_taxa.py`][add_taxa.py] - GTDB annotation of the samtools coverage tsv files.
 
 background_genus_summary.py - relative abundance (reads and bases) along with absolute read counts and mapped bases for background genus.
 
