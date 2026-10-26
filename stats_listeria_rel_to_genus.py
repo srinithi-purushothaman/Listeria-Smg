@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 """
-listeria_cov_summary.py
-=======================
-
 Summarise samtools-coverage style TSVs annotated with GTDB taxonomy and MLST
 ST, expressing Listeria composition as relative abundance with a
 DELIBERATELY MIXED denominator, by row:
@@ -138,7 +135,7 @@ ST_GATED_SPECIES = "Listeria monocytogenes"
 # after normalisation, before anything downstream ever sees a "9".
 ST_MERGE_MAP = {"9": "35"}
 
-TARGET_STS = ["1", "35", "70", "121"]          # stored bare, displayed as ST1 ... (post-merge, no separate "9")
+TARGET_STS = ["1", "35", "70", "121"] 
 
 # Synthetic labels added alongside the target lists so
 # relative_abundance_reads/_bases sums to 100% per sample at each level
@@ -152,9 +149,6 @@ UNTYPED_LABEL = "untyped"
 # bases (see module docstring).
 NEEDED_COLS = ["numreads", "covbases", "meandepth", "startpos", "endpos", "gtdb_taxonomy", "ST"]
 
-# --------------------------------------------------------------------------- #
-# Normalisation helpers
-# --------------------------------------------------------------------------- #
 
 _NULL_ST = {"", "-", "na", "n/a", "nan", "none", "null", "<na>", "*", "?"}
 
@@ -224,10 +218,6 @@ def natural_key(tp) -> tuple:
     m = re.match(r"^(\d+(?:\.\d+)?)", s)
     return (float(m.group(1)) if m else float("inf"), s)
 
-
-# --------------------------------------------------------------------------- #
-# Per-file worker
-# --------------------------------------------------------------------------- #
 
 AWK = shutil.which("awk") or shutil.which("gawk") or shutil.which("mawk")
 
@@ -314,7 +304,7 @@ def process_file(args) -> dict:
     is_target_species = df["species"].isin(TARGET_SPECIES)
     is_nontarget_listeria = is_listeria & ~is_target_species
 
-    # ---- species totals (targets only, per is_target_species above) ------- #
+   
     sp = (
         df.loc[is_target_species]
         .groupby("species", as_index=False)
@@ -432,10 +422,6 @@ def process_file(args) -> dict:
         "rows": df if keep_rows else None,
     }
 
-
-# --------------------------------------------------------------------------- #
-# Metadata
-# --------------------------------------------------------------------------- #
 
 def load_metadata(path: Path) -> pd.DataFrame:
     meta = pd.read_csv(path, sep="\t", dtype=str)
