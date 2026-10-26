@@ -28,4 +28,4 @@ Note: Reads and bases assigned to ST9 and ST35 were merged and reported as ST35 
 
 listeria_annotate.py - add ST and Listeria species annotation.
 
-stats_lis.py - relative abundance (reads and bases) along with absolute read counts and mapped bases for Listeria species and ST.
+[`stats_listeria_rel_to_genus.py`](stats_listeria_rel_to_genus.py) - relative abundance (reads and bases) along with absolute read counts and mapped bases for Listeria species and ST.
