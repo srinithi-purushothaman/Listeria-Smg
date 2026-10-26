@@ -20,10 +20,9 @@ Usage:
     python3 add_taxa.py bac_taxa.tsv coverage_dir/ --recursive
 
 Input assumptions:
-    - taxonomy file: tab-separated, no header; first column is the accession,
-      the remaining column(s) hold the taxonomy (e.g. one column
+    -  first column is the accession,the remaining column(s) hold the taxonomy (e.g. one column
       "d__Bacteria;p__...;s__..." or several tab-separated columns).
-    - coverage files: samtools-coverage-style, first line is a "#rname ..." header.
+    - coverage files: samtools coverage file, first line is a "#rname ..." header.
 """
 
 import sys
