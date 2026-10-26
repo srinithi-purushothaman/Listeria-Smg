@@ -7,7 +7,7 @@ Quasimetagenomics indicated selective enrichment of specific L. monocytogenes st
 
 The manuscript is available here
 
-Basecalled sample bam files in ENA - PRJEB129024
+Basecalled sample bam files in ENA - PRJEB129024.
 
 # ONT read based analysis for Listeria detection
 
