@@ -39,6 +39,10 @@ cd  "$BASENAME"
 
 apptainer exec $APPTAINER_PATH/filtlong_v0.3.1.sif  filtlong --min_length 200 --keep_percent 90 "$INPUT_DIR"/"$BASENAME".fastq > "$BASENAME"_filt.fastq
 
+#Nanostats
+
+srun apptainer exec $APPTAINER_PATH/nanostat_v1.6.0.sif  NanoStat --fastq "$OUTPUT_DIR"/01_filt_reads/"$BASENAME"_filt.fastq --name "$BASENAME"_nanostat.tsv  --outdir "$OUTPUT_DIR" --tsv
+
 #minimap against gtdb
 
 apptainer exec "$APPTAINER_PATH"/minimap_v.2.31.sif minimap2 -ax map-ont -t 10 --secondary=no --split-prefix /home/spurus/scratch/tmp_sam/"$BASENAME"_  /shares/stephan.ils.uzh/bioinfo/databases/gtdb/gtdb_genomes_reps_r232/gtdb_v232.mmi "$BASENAME"_filt.fastq  > "$BASENAME".sam 
