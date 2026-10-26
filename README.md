@@ -18,7 +18,7 @@ Note: Reads and bases assigned to ST9 and ST35 were merged and reported as ST35 
 
 # Scripts
 
-align.sh - Slurm script for preprocessing and alignment.
+[`align.sh`](align.sh) - Slurm script for preprocessing and alignment.
 
 add_taxa.py - GTDB annotation of the samtools coverage tsv files.
 
