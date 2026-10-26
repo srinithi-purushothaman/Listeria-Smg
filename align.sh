@@ -41,7 +41,7 @@ apptainer exec $APPTAINER_PATH/filtlong_v0.3.1.sif  filtlong --min_length 200 --
 
 #Nanostats
 
-srun apptainer exec $APPTAINER_PATH/nanostat_v1.6.0.sif  NanoStat --fastq "$OUTPUT_DIR"/01_filt_reads/"$BASENAME"_filt.fastq --name "$BASENAME"_nanostat.tsv  --outdir "$OUTPUT_DIR" --tsv
+apptainer exec $APPTAINER_PATH/nanostat_v1.6.0.sif  NanoStat --fastq "$OUTPUT_DIR"/01_filt_reads/"$BASENAME"_filt.fastq --name "$BASENAME"_nanostat.tsv  --outdir "$OUTPUT_DIR" --tsv
 
 #minimap against gtdb
 
