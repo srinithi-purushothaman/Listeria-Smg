@@ -3,13 +3,13 @@
 #SBATCH --job-name=lis_smg                   
 #SBATCH --cpus-per-task=12              
 #SBATCH --mem=80G             
-#SBATCH --account=stephan.ils.uzh
+#SBATCH --account=your.hpc.account
 #SBATCH --output=logs/%A_%a.out
 #SBATCH --error=logs/%A_%a.err
 #SBATCH --time=24:00:00
 
 
-INPUT_DIR="/shares/stephan.ils.uzh/projects/urban-lab/Listeria_Smg_RW_samples_Roger/rawdata/concat_fastq"
+INPUT_DIR="path/to/basecalled/rawfastq/files"
 FILE_PATTERN="*.fastq"
 
 if [[ -z $SLURM_ARRAY_TASK_ID ]]; then
@@ -27,9 +27,9 @@ BASENAME=$(basename "${INPUT_FILE}" .fastq)
 
 ml apptainer
 
-OUTPUT_DIR="/shares/stephan.ils.uzh/projects/urban-lab/Listeria_Smg_RW_samples_Roger/analysis"
+OUTPUT_DIR="/output/analysis"
 
-APPTAINER_PATH="/shares/stephan.ils.uzh/bioinfo/tools"
+APPTAINER_PATH="/bioinfo/tools"
 
 mkdir "$BASENAME"
 
@@ -37,7 +37,7 @@ cd  "$BASENAME"
 
 #Filt 200bp
 
-apptainer exec $APPTAINER_PATH/filtlong_v0.3.1.sif  filtlong --min_length 200 --min_mean_q 8 "$INPUT_DIR"/"$BASENAME".fastq > "$BASENAME"_filt.fastq
+apptainer exec $APPTAINER_PATH/filtlong_v0.3.1.sif  filtlong --min_length 200 --keep "$INPUT_DIR"/"$BASENAME".fastq > "$BASENAME"_filt.fastq
 
 #minimap against gtdb
 
@@ -61,7 +61,7 @@ apptainer exec "$APPTAINER_PATH"/samtools_v1.24.sif samtools view -@ 10 -H "$BAS
     for(i=2;i<=NF;i++){if($i~/^SN:/)sn=substr($i,4); if($i~/^LN:/)ln=substr($i,4)}
     print sn"\t"ln}' > "$BASENAME"_refs_all.tsv
 
-grep -F -f /shares/stephan.ils.uzh/bioinfo/databases/gtdb/gtdb_genomes_reps_r232/database/Listeria_genomes/Listeria_list_complete_gcf_ids_gtdb.txt "$BASENAME"_refs_all.tsv | awk -F'\t' -v OFS='\t' '{print $1,0,$2}' > "$BASENAME"_targets.bed
+grep -F -f /bioinfo/databases/gtdb/gtdb_genomes_reps_r232/database/Listeria_genomes/Listeria_list_complete_gcf_ids_gtdb.txt "$BASENAME"_refs_all.tsv | awk -F'\t' -v OFS='\t' '{print $1,0,$2}' > "$BASENAME"_targets.bed
 
 wc -l "$BASENAME"_targets.bed
 
