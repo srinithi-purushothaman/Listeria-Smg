@@ -29,6 +29,8 @@ ml apptainer
 
 OUTPUT_DIR="/output/analysis"
 
+SCRATCH_DIR="/your/path/to/tmp/folder/"
+
 APPTAINER_PATH="/bioinfo/tools"
 
 mkdir "$BASENAME"
@@ -37,15 +39,15 @@ cd  "$BASENAME"
 
 #Filt 200bp
 
-apptainer exec $APPTAINER_PATH/filtlong_v0.3.1.sif  filtlong --min_length 200 --keep_percent 90 "$INPUT_DIR"/"$BASENAME".fastq > "$BASENAME"_filt.fastq
+apptainer exec $APPTAINER_PATH/filtlong_v0.3.1.sif  filtlong --min_length 200 --keep_percent 90 "$INPUT_DIR"/"$BASENAME".fastq > "$OUTPUT_DIR"/"$BASENAME"_filt.fastq
 
 #Nanostats
 
-apptainer exec $APPTAINER_PATH/nanostat_v1.6.0.sif  NanoStat --fastq "$OUTPUT_DIR"/01_filt_reads/"$BASENAME"_filt.fastq --name "$BASENAME"_nanostat.tsv  --outdir "$OUTPUT_DIR" --tsv
+apptainer exec $APPTAINER_PATH/nanostat_v1.6.0.sif  NanoStat --fastq "$OUTPUT_DIR"/"$BASENAME"_filt.fastq --name "$BASENAME"_nanostat.tsv  --outdir "$OUTPUT_DIR" --tsv
 
 #minimap against gtdb
 
-apptainer exec "$APPTAINER_PATH"/minimap_v.2.31.sif minimap2 -ax map-ont -t 10 --secondary=no --split-prefix /home/spurus/scratch/tmp_sam/"$BASENAME"_  /shares/stephan.ils.uzh/bioinfo/databases/gtdb/gtdb_genomes_reps_r232/gtdb_v232.mmi "$BASENAME"_filt.fastq  > "$BASENAME".sam 
+apptainer exec "$APPTAINER_PATH"/minimap_v.2.31.sif minimap2 -ax map-ont -t 10 --secondary=no --split-prefix "$SCRATCH_DIR"/"$BASENAME"_  /shares/stephan.ils.uzh/bioinfo/databases/gtdb/gtdb_genomes_reps_r232/gtdb_v232.mmi "$BASENAME"_filt.fastq  > "$BASENAME".sam 
 
 apptainer exec "$APPTAINER_PATH"/samtools_v1.24.sif samtools view -@ 10 -bS "$BASENAME".sam  > "$BASENAME".bam
 
@@ -75,7 +77,7 @@ apptainer exec "$APPTAINER_PATH"/samtools_v1.24.sif samtools index -@ 10 "$BASEN
 
 apptainer exec "$APPTAINER_PATH"/samtools_v1.24.sif samtools fastq -@ 10 -n "$BASENAME"_lis_sort.bam  > "$BASENAME"_lis_sort.fastq
 
-apptainer exec "$APPTAINER_PATH"/minimap_v.2.31.sif minimap2 -ax map-ont -t 10 -I 10G -K 2G --secondary=no --split-prefix /home/spurus/scratch/tmp_sam/"$BASENAME"_  /shares/stephan.ils.uzh/bioinfo/databases/gtdb/gtdb_genomes_reps_r232/database/Listeria_genomes/Listeria_genomes_gtdbv232.fna "$BASENAME"_lis_sort.fastq > "$BASENAME"_lis.sam
+apptainer exec "$APPTAINER_PATH"/minimap_v.2.31.sif minimap2 -ax map-ont -t 10 -I 10G -K 2G --secondary=no --split-prefix $SCRATCH_DIR"/"$BASENAME"_   /bioinfo/databases/gtdb/gtdb_genomes_reps_r232/database/Listeria_genomes/Listeria_genomes_gtdbv232.fna "$BASENAME"_lis_sort.fastq > "$BASENAME"_lis.sam
 
 apptainer exec "$APPTAINER_PATH"/samtools_v1.24.sif samtools view -@ 10 -bS "$BASENAME"_lis.sam  > "$BASENAME"_lis.bam
 
